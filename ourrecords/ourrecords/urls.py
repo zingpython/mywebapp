@@ -16,14 +16,16 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from posts import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.RecordListView.as_view(), name="records_list"),
-]
-
-
-
+    url(r'^(?P<pk>\d+)/$', views.RecordDetailView.as_view(), name="record_detail"),
+    url(r'^(?P<pk>\d+)/update/$', views.RecordUpdateView.as_view(), name="record_update"),
+	url(r'^create/$', views.RecordCreateView.as_view(), name="records_create"),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 
