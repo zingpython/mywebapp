@@ -71,7 +71,8 @@ Get into your project directory
 cd your_project
 ```
 Create db and create a super user
-```python manage.py migrate```
+```
+python manage.py migrate
 
 python manage.py createsuperuser 
 ```
@@ -84,6 +85,7 @@ mkdir staticfiles
 
 mkdir media
 ```
+
 Open 000-default.conf with nano is a text editor
 
 ```
