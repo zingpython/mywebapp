@@ -125,25 +125,32 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 Add User Permissions
 Add User Permissions (to modify sqlite3 Database). sudo chown is a command to change the ownership of a file/folder at a time to a specified user. CHOWN stands for CHange file OWNer. sudo chmod 755 filename command - you allow everyone to read and execute the file, and the file owner is allowed to write to the file as well. sudo chmod 777 means making the file readable, writable and executable by everyone.
+
 ```
 sudo adduser $USER www-data
 ```
+
 ```
 sudo chown www-data:www-data /var/www/env/your_folder_from_github/your_project/
 ```
+
 ```
 sudo chown www-data:www-data /var/www/env/your_folder_from_github/your_project/db.sqlite3
 ```
+
 ```
 sudo chmod -R 775 /var/www/env/your_folder_from_github/your_project
 ```
+
 ```
 sudo chmod 777 /var/www/env/your_folder_from_github/your_project/media/your_folder_for_images/
 ```
-Colect static files
+Collect static files
 ```
 python manage.py collectstatic
 ```
 Restart Apache server
 Restart Apache server, do it everytime after changes been made to the site
-```service apache2 restart```
+```
+service apache2 restart
+```
