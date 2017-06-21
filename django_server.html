@@ -1,0 +1,182 @@
+<h3>Deploy Django App to Debian Linux Systems</h3>
+<h4>Before Deployment</h4>
+<p>Settings.py</p>
+<p>Make sure you switched Debug to False</p>
+<p>Change ALLOWED_HOSTS to your IP address</p>
+<p>Provide pathes to Static files</p>
+<pre>
+<code>
+STATIC_URL = '/static/'       
+STATIC_ROOT = '/var/www/env/your_folder_from_github/your_project/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '/var/www/env/your_folder_from_github/your_project/staticfiles/')
+]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/var/www/env/your_folder_from_github/your_project/media/')
+</code>
+</pre>
+<p></p>
+<h4>Get connected</h4>
+<p>Open terminal and connect to IP address</p>
+<code>
+ssh root@ip.address
+</code>
+<p>Enter password from your hosting co</p><p></p>
+<h4>Install Apache2 and Python tools</h4>
+<code>
+sudo apt-get update</code><br/>
+<code> 
+sudo apt-get upgrade</code><br/>
+<code> 
+sudo apt-get install git</code><br/>
+<code> 
+sudo apt-get install apache2</code><br/>
+<code> 
+sudo apt-get install python-pip python-virtualenv</code><br/>
+<code>  
+sudo apt-get install python-setuptools python-dev build-essential</code><br/>
+<code>
+sudo apt-get install libapache2-mod-wsgi-py3</code><br/>
+<code>
+sudo apt-get build-dep python-imaging
+</code><p></p>
+<h4>Start Virtualenv and install Python3</h4>
+<code>
+sudo pip install virtualenv</code>
+<code><br/>
+cd /var/www</code><br/>
+<code>
+mkdir env && cd env
+</code><br/>
+<code>
+virtualenv -p python3 .</code><br/>
+<code>
+source bin/activate 
+</code><p></p>
+<h4>Check Python version</h4>
+<code>
+python --version
+</code><p></p>
+<h4>Clone github repo to your server</h4>
+<code>
+git clone https://github.com/you_github_name/repo_name.git
+</code><p></p>
+<h4>Get into your cloned directory</h4>
+<code>
+cd your_folder_from_github
+</code><p></p>
+<h4>Install all libriaries from requirements.txt</h4>
+<code>
+pip install -r requirements.txt
+</code><p></p>
+<h4>Get into your project directory</h4>
+<code>
+cd your_project
+</code><p></p>
+<h4>Create db and create a super user</h4>
+<code>python manage.py migrate</code><br/>
+<code>
+python manage.py createsuperuser 
+</code><p></p>
+<h4>Create Static & Media Root directories.</h4>
+<p>Make sure you are in /var/www/venv/your_folder_from_github/your_project/</p>
+<code>
+mkdir static
+</code><br/>
+<code>
+mkdir staticfiles
+</code><br/>
+<code>
+mkdir media
+</code><p></p>
+<h4>Open 000-default.conf with nano is a text editor
+</h4>
+<code>
+sudo nano /etc/apache2/sites-available/000-default.conf
+</code><p></p>
+<h4>
+Change Apache2 configuration</h4>
+<pre><code>&lt;VirtualHost *:80&gt;
+ServerName localhost
+ServerAdmin webmaster@localhost
+
+Alias /static /var/www/env/your_folder_from_github/your_project/static
+&lt;Directory /var/www/env/your_folder_from_github/your_project/static&gt;
+   Require all granted
+ &lt;/Directory&gt;
+
+Alias /media /var/www/env/your_folder_from_github/your_project/media
+&lt;Directory /var/www/env/your_folder_from_github/your_project/media&gt;
+   Require all granted
+&lt;/Directory&gt;
+
+&lt;Directory /var/www/env/your_folder_from_github/your_project/your_project&gt;
+    &lt;Files wsgi.py&gt;
+        Require all granted
+    &lt;/Files&gt;
+&lt;/Directory&gt;
+
+WSGIDaemonProcess home python-path=/var/www/env/your_folder_from_github/your_project/:/var/www/env/lib/python3.5/site-packages
+WSGIProcessGroup home
+WSGIScriptAlias / /var/www/env/your_folder_from_github/your_project/your_project/wsgi.py
+
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+
+<p></p>
+<h4>Add User Permissions</h4>
+<p>Add User Permissions (to modify sqlite3 Database). sudo chown is a command to change the ownership of a file/folder at a time to a specified user. CHOWN stands for CHange file OWNer. sudo chmod 755 filename command - you allow everyone to read and execute the file, and the file owner is allowed to write to the file as well. sudo chmod 777 means making the file readable, writable and executable by everyone.</p>
+<code>
+sudo adduser $USER www-data</code><p></p>
+<code>
+sudo chown www-data:www-data<br>
+/var/www/env/your_folder_from_github/your_project/
+</code><p></p>
+<code>
+sudo chown www-data:www-data<br> 
+/var/www/env/your_folder_from_github/your_project/db.sqlite3</code><p></p>
+<code>
+sudo chmod -R 775<br>
+/var/www/env/your_folder_from_github/your_project</code><p></p>
+<code>
+sudo chmod 777<br>
+/var/www/env/your_folder_from_github/your_project/media/your_folder_for_images/
+</code><p></p>
+<h4>Colect static files</h4>
+<code>
+python manage.py collectstatic
+</code><p></p>
+<h4>Restart Apache server</h4>
+<p>Restart Apache server, do it everytime after changes been made to the site</p>
+<code>service apache2 restart</code>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
