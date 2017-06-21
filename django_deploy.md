@@ -1,9 +1,9 @@
 Deploy Django App to Debian Linux Systems
 Before Deployment
-Settings.py
-Make sure you switched Debug to False
-Change ALLOWED_HOSTS to your IP address
-Provide pathes to Static files
+Change settings.py
+Step 1. Make sure you switched Debug to False
+Step 2. Change ALLOWED_HOSTS to your IP address
+Step 3. Static files
 ```
 STATIC_URL = '/static/'       
 STATIC_ROOT = '/var/www/env/your_folder_from_github/your_project/static/'
@@ -127,18 +127,18 @@ Add User Permissions
 Add User Permissions (to modify sqlite3 Database). sudo chown is a command to change the ownership of a file/folder at a time to a specified user. CHOWN stands for CHange file OWNer. sudo chmod 755 filename command - you allow everyone to read and execute the file, and the file owner is allowed to write to the file as well. sudo chmod 777 means making the file readable, writable and executable by everyone.
 ```
 sudo adduser $USER www-data
-
-sudo chown www-data:www-data
-/var/www/env/your_folder_from_github/your_project/
-
-sudo chown www-data:www-data
-/var/www/env/your_folder_from_github/your_project/db.sqlite3
-
-sudo chmod -R 775
-/var/www/env/your_folder_from_github/your_project
-
-sudo chmod 777
-/var/www/env/your_folder_from_github/your_project/media/your_folder_for_images/
+```
+```
+sudo chown www-data:www-data /var/www/env/your_folder_from_github/your_project/
+```
+```
+sudo chown www-data:www-data /var/www/env/your_folder_from_github/your_project/db.sqlite3
+```
+```
+sudo chmod -R 775 /var/www/env/your_folder_from_github/your_project
+```
+```
+sudo chmod 777 /var/www/env/your_folder_from_github/your_project/media/your_folder_for_images/
 ```
 Colect static files
 ```
