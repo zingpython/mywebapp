@@ -1,0 +1,5 @@
+{% for item in object_list %}
+<ul>
+<li><h3><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3> <h3>{{ item.slug }}</h3></li>
+</ul>
+{% endfor %}
